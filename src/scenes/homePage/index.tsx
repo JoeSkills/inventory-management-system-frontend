@@ -20,7 +20,7 @@ const Index = NavbarWrapper(() => {
   const { username } = useSelector((state: ReduxState) => state.user);
   const { data } = useQuery('items data', () =>
     axios
-      .get('http://localhost:8000/api/items-data', {
+      .get('https://joe-ims-api.onrender.com/api/items-data', {
         params: {
           limit: 4,
           page: 1,

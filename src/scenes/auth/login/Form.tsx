@@ -30,7 +30,7 @@ const Form = () => {
 
   const onSubmit = (data: { email: string; password: string }) => {
     const loginFuncRef = axios
-      .post('http://localhost:8000/auth/login', data)
+      .post('https://joe-ims-api.onrender.com/auth/login', data)
       .then(({ data: { token, user } }) => {
         dispatch(setLogin({ token, user }));
         navigate('/');

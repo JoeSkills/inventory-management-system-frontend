@@ -36,7 +36,7 @@ const Form = () => {
   }) => {
     toast.promise(
       axios
-        .post('http://localhost:8000/auth/signup', data)
+        .post('https://joe-ims-api.onrender.com/auth/signup', data)
         .then(({ data: { token, user } }) => {
           dispatch(setLogin({ token, user }));
           navigate('/');

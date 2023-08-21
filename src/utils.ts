@@ -39,10 +39,12 @@ export const handleItemDelete = (
   refetch: (() => void) | undefined
 ) => {
   toast.promise(
-    axios.delete(`http://localhost:8000/api/items-data/${id}`).then((data) => {
-      console.log(data);
-      refetch && refetch();
-    }),
+    axios
+      .delete(`https://joe-ims-api.onrender.com/api/items-data/${id}`)
+      .then((data) => {
+        console.log(data);
+        refetch && refetch();
+      }),
     {
       loading: 'Deleting product. Please wait...',
       error:
@@ -61,7 +63,7 @@ export const handleItemUpdate = (
   toast
     .promise(
       axios
-        .patch(`http://localhost:8000/api/items-data/${id}`, {
+        .patch(`https://joe-ims-api.onrender.com/api/items-data/${id}`, {
           ...prevData,
           ...currData,
         })

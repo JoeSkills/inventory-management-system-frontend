@@ -8,11 +8,11 @@ import { Toaster, toast } from 'react-hot-toast';
 
 const sendItemsDataToDb = async (data: ItemsDataFormProperties) => {
   return await axios
-    .get('http://localhost:8000/api/items-data/total-items')
+    .get('https://joe-ims-api.onrender.com/api/items-data/total-items')
     .then(({ data: noOfProducts }) => {
       console.log('No of products: ', noOfProducts);
       const addProductsFuncRef = axios
-        .post('http://localhost:8000/api/items-data', {
+        .post('https://joe-ims-api.onrender.com/api/items-data', {
           ...data,
           itemId: noOfProducts + 1,
           lastUpdated: new Date().toString(),

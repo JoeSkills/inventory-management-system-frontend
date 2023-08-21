@@ -105,7 +105,7 @@ const ItemDataTableWidget = () => {
     ['items-table-data', page, rowsPerPage],
     () =>
       axios
-        .get('http://localhost:8000/api/items-data', {
+        .get('https://joe-ims-api.onrender.com/api/items-data', {
           params: {
             limit: rowsPerPage,
             page: page === 0 ? 1 : page * rowsPerPage,
@@ -127,7 +127,7 @@ const ItemDataTableWidget = () => {
 
   const { data: totalItemsCount } = useQuery('total items count', () =>
     axios
-      .get('http://localhost:8000/api/items-data/total-items')
+      .get('https://joe-ims-api.onrender.com/api/items-data/total-items')
       .then(({ data }) => data)
   );
 

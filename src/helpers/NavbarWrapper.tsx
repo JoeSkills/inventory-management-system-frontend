@@ -13,7 +13,7 @@ const NavbarWrapper = (Page: React.FC): React.FC =>
     }, [token, navigate]);
 
     axios
-      .post('http://localhost:8000/auth', {
+      .post('https://joe-ims-api.onrender.com/auth', {
         token,
       })
       .then(({ data: { status } }) => {

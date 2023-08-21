@@ -104,7 +104,7 @@ const SalesTableWidget = () => {
     ['transactions-sales', page, rowsPerPage],
     () =>
       axios
-        .get('http://localhost:8000/api/transactions/sales', {
+        .get('https://joe-ims-api.onrender.com/api/transactions/sales', {
           params: {
             limit: rowsPerPage,
             page: page === 0 ? 1 : page * rowsPerPage,
@@ -126,7 +126,9 @@ const SalesTableWidget = () => {
 
   const { data: totalItemsCount } = useQuery('sales-total-items-count', () =>
     axios
-      .get('http://localhost:8000/api/transactions/sales/total-items')
+      .get(
+        'https://joe-ims-api.onrender.com/api/transactions/sales/total-items'
+      )
       .then(({ data }) => data)
   );
 

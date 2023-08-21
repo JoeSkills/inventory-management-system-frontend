@@ -36,7 +36,7 @@ const Form = () => {
 
   const { data, isLoading } = useQuery('products', () =>
     axios
-      .get('http://localhost:8000/api/items-data/')
+      .get('https://joe-ims-api.onrender.com/api/items-data/')
       .then(({ data: { data } }) => data)
   );
 
@@ -72,7 +72,7 @@ const Form = () => {
 
     toast.promise(
       axios
-        .post('http://localhost:8000/api/transactions/sales/', {
+        .post('https://joe-ims-api.onrender.com/api/transactions/sales/', {
           user: _id,
           createdAt: new Date().toString(),
           items: valueOfItems,
