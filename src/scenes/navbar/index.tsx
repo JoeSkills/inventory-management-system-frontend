@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DRAWER_WIDTH, NAV_LINKS } from '../../constants';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -108,7 +108,13 @@ const Index = ({ children }: Props) => {
 
   const dispatch = useDispatch();
 
-  const { username } = useSelector((state: ReduxState) => state.user);
+  const { username } = useSelector((state: ReduxState) => state.user) || {
+    username: undefined,
+  };
+
+  useEffect(() => {
+    if (!username) navigate('/auth/login');
+  }, [username, navigate]);
 
   const { pathname } = useLocation();
 
@@ -124,79 +130,81 @@ const Index = ({ children }: Props) => {
   };
 
   return (
-    <Box display={'flex'}>
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <FlexBetween
-            width={'100%'}
-            justifyContent={{ xs: 'flex-end', sm: 'space-between' }}
-          >
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <IconButton onClick={handleDrawerOpen}>
-                <MenuIcon />
-              </IconButton>
-            </Box>
-            <Box display={'flex'} alignItems={'center'} gap={1}>
-              <Avatar sx={{ backgroundColor: 'primary.main' }}>
-                {username[0]}
-              </Avatar>
-              <Box>
-                <Typography
-                  fontSize={'0.875rem'}
-                  color={'black'}
-                  fontWeight={'600'}
-                >
-                  {username}
-                </Typography>
+    username && (
+      <Box display={'flex'}>
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <FlexBetween
+              width={'100%'}
+              justifyContent={{ xs: 'flex-end', sm: 'space-between' }}
+            >
+              <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                <IconButton onClick={handleDrawerOpen}>
+                  <MenuIcon />
+                </IconButton>
               </Box>
-            </Box>
-          </FlexBetween>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </DrawerHeader>
+              <Box display={'flex'} alignItems={'center'} gap={1}>
+                <Avatar sx={{ backgroundColor: 'primary.main' }}>
+                  {username[0]}
+                </Avatar>
+                <Box>
+                  <Typography
+                    fontSize={'0.875rem'}
+                    color={'black'}
+                    fontWeight={'600'}
+                  >
+                    {username}
+                  </Typography>
+                </Box>
+              </Box>
+            </FlexBetween>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </DrawerHeader>
 
-        <List>
-          {NAV_LINKS.map(({ path, name, Icon }) => (
-            <ListItem
-              key={name}
-              disablePadding
-              sx={{ display: 'block', color: isCurrentRoute(path) }}
-            >
-              <Link to={path}>
-                <ListItemButton>
-                  <ListItemIcon sx={{ color: isCurrentRoute(path) }}>
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText primary={name} />
-                </ListItemButton>
-              </Link>
+          <List>
+            {NAV_LINKS.map(({ path, name, Icon }) => (
+              <ListItem
+                key={name}
+                disablePadding
+                sx={{ display: 'block', color: isCurrentRoute(path) }}
+              >
+                <Link to={path}>
+                  <ListItemButton>
+                    <ListItemIcon sx={{ color: isCurrentRoute(path) }}>
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText primary={name} />
+                  </ListItemButton>
+                </Link>
+              </ListItem>
+            ))}
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                onClick={() => {
+                  dispatch(setLogout());
+                  navigate('/auth/login');
+                }}
+              >
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
             </ListItem>
-          ))}
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              onClick={() => {
-                dispatch(setLogout());
-                navigate('/auth/login');
-              }}
-            >
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
-      <Box component="main" bgcolor={'#FBFFFF'} p={3} flexGrow={1}>
-        <DrawerHeader />
-        {children}
+          </List>
+        </Drawer>
+        <Box component="main" bgcolor={'#FBFFFF'} p={3} flexGrow={1}>
+          <DrawerHeader />
+          {children}
+        </Box>
       </Box>
-    </Box>
+    )
   );
 };
 
