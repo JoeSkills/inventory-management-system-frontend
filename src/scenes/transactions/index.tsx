@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import NavbarWrapper from '../../helpers/NavbarWrapper';
 import Form from './Form';
+import SalesTableWidget from '../widgets/SalesTableWidget';
 
 const index = NavbarWrapper(() => {
   return (
@@ -14,6 +15,9 @@ const index = NavbarWrapper(() => {
       <Box mt={2}>
         <Typography mt={1}>Add a new sale</Typography>
         <Form />
+      </Box>
+      <Box mt={2}>
+        <SalesTableWidget />
       </Box>
     </div>
   );

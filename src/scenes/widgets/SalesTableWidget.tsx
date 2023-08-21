@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { tableHeadData } from '../../constants';
+import { salesTableHeadData } from '../../constants';
 import { Box, IconButton, TableFooter, TablePagination } from '@mui/material';
 import { ItemDataTableProperties } from '../../types';
 import { useQuery } from 'react-query';
@@ -16,6 +16,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Toaster } from 'react-hot-toast';
+import { makeDateReadable } from '../../utils';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -129,10 +130,26 @@ const SalesTableWidget = () => {
       .get(
         'https://joe-ims-api.onrender.com/api/transactions/sales/total-items'
       )
-      .then(({ data }) => data)
+      .then(({ data }) => data.data)
   );
 
-  const rows = data as ItemDataTableProperties[];
+  const rows = data as {
+    _id: string;
+    createdAt: string;
+    user: {
+      _id: string;
+      username: string;
+      email: string;
+      password: string;
+    };
+    notes: string;
+    totalAmount: string | number;
+    items: {
+      product: ItemDataTableProperties;
+      quantity: number;
+      unitPrice: number;
+    }[];
+  }[];
 
   if (isLoading) {
     return (
@@ -149,7 +166,7 @@ const SalesTableWidget = () => {
             <Table sx={{ minWidth: 650 }} aria-label="Item Properties Table">
               <TableHead>
                 <TableRow>
-                  {tableHeadData.map((itemProps) => (
+                  {salesTableHeadData.map((itemProps) => (
                     <TableCell key={itemProps}>{itemProps}</TableCell>
                   ))}
                 </TableRow>
@@ -157,12 +174,36 @@ const SalesTableWidget = () => {
               <TableBody>
                 {rows.map((row) => (
                   <TableRow
-                    key={row.itemId}
+                    key={row._id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
-                      {row.itemId}
+                    <TableCell align="left" component="th" scope="row">
+                      {row.user.username}
                     </TableCell>
+                    <TableCell align="left">
+                      {makeDateReadable(row.createdAt)}
+                    </TableCell>
+                    <TableCell align="left">{row.totalAmount}</TableCell>
+                    <TableCell align="left">
+                      {row.items &&
+                        row.items.map((item) => {
+                          return (
+                            <p key={item.product.itemName}>
+                              {' '}
+                              {item.product.itemName}{' '}
+                            </p>
+                          );
+                        })}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.items &&
+                        row.items.map((item) => {
+                          return (
+                            <p key={item.product.itemName}> {item.quantity} </p>
+                          );
+                        })}
+                    </TableCell>
+                    <TableCell align="left">{row.notes}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -171,7 +212,7 @@ const SalesTableWidget = () => {
                   <TableRow>
                     <TablePagination
                       rowsPerPageOptions={[4, 10, 25]}
-                      colSpan={7}
+                      colSpan={4}
                       count={totalItemsCount}
                       rowsPerPage={rowsPerPage}
                       page={page}

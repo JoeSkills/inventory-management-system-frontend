@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ItemDataTableProperties, ItemsDataFormProperties } from './types';
 import { toast } from 'react-hot-toast';
+import moment from 'moment';
 
 export const hasItemBecomeInactive = (lastUpdated: string): boolean => {
   const lastUpdatedDate = new Date(lastUpdated);
@@ -79,3 +80,6 @@ export const handleItemUpdate = (
     )
     .then(() => refetch && refetch());
 };
+
+export const makeDateReadable = (prevDate: string): string =>
+  moment(prevDate).format('YYYY-MM-DD HH:MM A');

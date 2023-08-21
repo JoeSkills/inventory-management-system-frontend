@@ -60,3 +60,12 @@ export const tableHeadData = [
   'Edit',
   'Delete',
 ] as ItemDataTableWidgetTableHeadData;
+
+export const salesTableHeadData = [
+  'User',
+  'Date',
+  'Total Amount',
+  'Products',
+  'Quantity',
+  'Notes',
+];
