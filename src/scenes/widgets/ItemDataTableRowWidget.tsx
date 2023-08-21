@@ -6,6 +6,7 @@ import { AlertDialogContext, AlertFormDialogContext } from '../../context';
 import ItemTableDeleteAlertWidget from './ItemTableDeleteAlertWidget';
 import ItemDataTableEditFormWidget from './ItemDataTableEditFormWidget';
 import { useState } from 'react';
+import { makeDateReadable } from '../../utils';
 
 const ItemDataTableRowWidget = ({
   row,
@@ -37,8 +38,8 @@ const ItemDataTableRowWidget = ({
       <TableCell align="right">{row.quantity}</TableCell>
       <TableCell align="right">{row.unitPrice}</TableCell>
       <TableCell align="right">{row.supplier}</TableCell>
-      <TableCell align="right">{row.dateAdded}</TableCell>
-      <TableCell align="right">{row.lastUpdated}</TableCell>
+      <TableCell align="right">{makeDateReadable(row.dateAdded)}</TableCell>
+      <TableCell align="right">{makeDateReadable(row.lastUpdated)}</TableCell>
       <TableCell align="right">
         <AlertFormDialogContext.Provider
           value={{
