@@ -89,11 +89,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-const ItemDataTableWidget = ({
-  refetch: pageRefetch,
-}: {
-  refetch: () => void;
-}) => {
+const ItemDataTableWidget = () => {
   const [page, setPage] = useState(0);
 
   const [rowsPerPage, setRowsPerPage] = useState(4);
@@ -126,6 +122,7 @@ const ItemDataTableWidget = ({
     newPage: number
   ) => {
     setPage(newPage);
+    console.log(event);
   };
 
   const { data: totalItemsCount } = useQuery('total items count', () =>

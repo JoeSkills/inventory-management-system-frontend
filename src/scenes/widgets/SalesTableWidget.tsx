@@ -121,6 +121,7 @@ const SalesTableWidget = () => {
     newPage: number
   ) => {
     setPage(newPage);
+    console.log(event);
   };
 
   const { data: totalItemsCount } = useQuery('sales-total-items-count', () =>

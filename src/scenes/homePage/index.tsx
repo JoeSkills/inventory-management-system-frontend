@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 
 const Index = NavbarWrapper(() => {
   const { username } = useSelector((state: ReduxState) => state.user);
-  const { data, refetch } = useQuery('items data', () =>
+  const { data } = useQuery('items data', () =>
     axios
       .get('http://localhost:8000/api/items-data', {
         params: {
@@ -76,7 +76,7 @@ const Index = NavbarWrapper(() => {
         <Typography fontSize={'1.5rem'} fontWeight={'600'}>
           All Items
         </Typography>
-        {data && <ItemDataTableWidget refetch={refetch} />}
+        <ItemDataTableWidget />
       </Box>
     </>
   );
